@@ -1,6 +1,6 @@
 <?php 
 
-$array = [
+$keyMapper = [
     " " => "1",
     "A" => "2",
     "B" => "22", 
@@ -31,23 +31,26 @@ $array = [
 ];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
-    if (strlen($_POST['convertChar']) === 0) {
+    if (!isset($_POST['convertChar'])) { 
+        $_SESSION['errorMessage'] = "błąd";
+    }
+    elseif (strlen($_POST['convertChar']) === 0) {
         $_SESSION['errorMessage'] = "podaj proszę dane do konwersji";
-     } 
-   elseif (!preg_match ("/^[a-zA-Z\s]+$/",$_POST['convertChar'])) {
-        $_SESSION['errorMessage'] = "the text must only contain letters";
+     }      
+    elseif (!preg_match ("/^[a-zA-Z\s]+$/",$_POST['convertChar'])) {
+        $_SESSION['errorMessage'] = "tekst zawierać może tylko same litery";
      } else {
-        $str = strtoupper($_POST['convertChar']);
-        $str = trim($str);
-        $str = strip_tags($str);
-        $stplitted = str_split($str);
-        $char = '';
-            for ($i=0; $i<count($stplitted); $i++) { 
-                if (array_key_exists($stplitted[$i], $array))  {
-                 $char .= $array[$stplitted[$i]];
+        $value = strtoupper($_POST['convertChar']);
+        $valueTrimmed = trim($value);
+        $valueStripped = strip_tags($valueTrimmed);
+        $valueSplitted = str_split($valueStripped);
+        $result = '';
+            for ($i=0; $i<count($valueSplitted); $i++) { 
+                if (array_key_exists($valueSplitted[$i], $keyMapper))  {
+                    $result .= $keyMapper[$valueSplitted[$i]];
              }  
         }
-        $_SESSION['valid'] = $char;
+        $_SESSION['valid'] = $result;
     }
 }
 ?>
@@ -171,8 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 if (!regex.test(key)) {
                     event.preventDefault();
-            }
-            });
+            }});
     </script>  
 </body>
 </html>
