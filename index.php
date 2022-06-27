@@ -33,18 +33,22 @@ $array = [
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     if (strlen($_POST['convertChar']) === 0) {
         $_SESSION['errorMessage'] = "podaj proszę dane do konwersji";
-    }
-    $str = strtoupper($_POST['convertChar']);
-    $str = trim($str);
-    $str = strip_tags($str);
-    $stplitted = str_split($str);
-    $char = '';
-        for ($i=0; $i<count($stplitted); $i++) { 
-            if (array_key_exists($stplitted[$i], $array))  {
-                $char .= $array[$stplitted[$i]];
-            }  
+     } 
+   elseif (!preg_match ("/^[a-zA-Z\s]+$/",$_POST['convertChar'])) {
+        $_SESSION['errorMessage'] = "the text must only contain letters";
+     } else {
+        $str = strtoupper($_POST['convertChar']);
+        $str = trim($str);
+        $str = strip_tags($str);
+        $stplitted = str_split($str);
+        $char = '';
+            for ($i=0; $i<count($stplitted); $i++) { 
+                if (array_key_exists($stplitted[$i], $array))  {
+                 $char .= $array[$stplitted[$i]];
+             }  
         }
-    $_SESSION['valid'] = $char;
+        $_SESSION['valid'] = $char;
+    }
 }
 ?>
 
@@ -154,23 +158,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="phone--button--submit">
                 <button type="submit" form="characters">kliknij, by zobaczyć cyfry</button>
         </div>
-    </div>
+    </div> 
+    <script>
+        document.getElementById("input").addEventListener("keypress", (e) => {
+            const keyCode = (e.keyCode ? e.keyCode : e.which);
+                if (keyCode > 47 && keyCode < 58) {
+                    e.preventDefault();
+            }});
 
-<script>
-    document.getElementById("input").addEventListener("keypress", (e) => {
-        const keyCode = (e.keyCode ? e.keyCode : e.which);
-            if (keyCode > 47 && keyCode < 58) {
-        e.preventDefault();
-    }});
-
-    document.getElementById("input").addEventListener("keypress", event => {
-        const regex = new RegExp("^[a-zA-Z0-9 ]+$");
+        document.getElementById("input").addEventListener("keypress", event => {
+            const regex = new RegExp("^[a-zA-Z0-9 ]+$");
         const key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-            event.preventDefault();
-     }
-    });
-</script>
+                if (!regex.test(key)) {
+                    event.preventDefault();
+            }
+            });
+    </script>  
 </body>
 </html>
  
