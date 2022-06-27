@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.phone--container {
+  width: 100%;
+  max-width: 468px;
+}
+
+.phone--display form input {
+  width: 100%;
+  padding: 1em;
+  outline: none;
+}
+
+.phone--display form input::placeholder {
+  text-align: center;
+  color: black;
+}
+
+.phone--display form input:focus {
+  border: 3px solid rgba(72, 178, 7, 1);
+}
+
+.errorMessage {
+  color: red;
+  font-weight: 700;
+  text-align: center;
+}
+
+.phone--keyboard {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.phone--button {
+  flex-basis: 33.333%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  height: 80px;
+  text-align: center;
+}
+
+.phone--button .phone--button--number {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.phone--button .phone--button--characters {
+  font-size: 18px;
+  color: #808080;
+}
+
+.phone--button--submit button {
+  padding: 1em;
+  width: 100%;
+  background-color: rgba(72, 178, 7, 1);
+  color: white;
+  font-size: 20px;
+  transition: 1s;
+}
+
+.phone--button--submit button:hover {
+  background-color: white;
+  color: rgba(72, 178, 7, 1);
+  cursor: pointer;
+  font-weight: 700;
+}
